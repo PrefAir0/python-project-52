@@ -1,18 +1,25 @@
 {% load django_bootstrap5 %}
-{% load i18n %} 
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="ru" class="h-100">
 <head>
-    ...
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% translate "Task Manager" %}</title>
+    
     {% bootstrap_css %}
 </head>
 <body class="d-flex flex-column h-100 bg-light">
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 shadow-sm">
         <div class="container-fluid container-lg">
             <a class="navbar-brand" href="{% url 'home' %}">{% translate "Task Manager" %}</a>
-            ...
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
@@ -30,6 +37,24 @@
             </div>
         </div>
     </nav>
-...
+
+    <main class="flex-shrink-0">
+        <div class="container container-lg">
+            
+            {% bootstrap_messages %}
+            
+            {% block content %}
+            {% endblock %}
+            
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-3 bg-white border-top text-muted">
+        <div class="container container-lg text-center">
+            <a href="https://ru.hexlet.io" target="_blank" class="text-decoration-none">Hexlet</a>
+        </div>
+    </footer>
+
+    {% bootstrap_javascript %}
 </body>
 </html>

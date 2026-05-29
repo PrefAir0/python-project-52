@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-29 23:51+0500\n"
+"POT-Creation-Date: 2026-05-29 23:58+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,18 +20,18 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\templates\base.html:7 .\templates\base.html:14
+#: .\templates\base.html:9 .\templates\base.html:17
 msgid "Task Manager"
 msgstr "Менеджер задач"
 
-#: .\templates\base.html:19
+#: .\templates\base.html:26
 msgid "Users"
 msgstr "Пользователи"
 
-#: .\templates\base.html:24
+#: .\templates\base.html:31
 msgid "Login"
 msgstr "Вход"
 
-#: .\templates\base.html:27
+#: .\templates\base.html:34
 msgid "Register"
 msgstr "Регистрация"
