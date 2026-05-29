@@ -25,7 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=8+uz6y4yl-gk7tb-j$yw0j^csr3_p!$kbq9wj)x5$i)(5)t5c'
+# Забираем из env, а если там пусто (например, локально), используем фолбек
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-=8+uz6y4yl-gk7tb-j$yw0j^csr3_p!$kbq9wj)x5$i)(5)t5c')
+
+# DEBUG будет True только если в .env написано DEBUG=True. На Render по умолчанию будет False
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -65,9 +69,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

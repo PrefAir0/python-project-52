@@ -1,3 +1,4 @@
 .env
 .venv
 __pycache__/
+python_project_52.egg-info

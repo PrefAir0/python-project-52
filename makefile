@@ -2,10 +2,10 @@ install:
 	uv pip install --system -r pyproject.toml
 
 migrate:
-	uv run python manage.py migrate
+	python manage.py migrate
 
 collectstatic:
-	uv run python manage.py collectstatic --no-input
+	python manage.py collectstatic --no-input
 
 build:
 	./build.sh
