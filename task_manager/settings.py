@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
 
     'users',
+    'statuses',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,3 +129,5 @@ LOCALE_PATHS = [
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+LOGIN_URL = 'login'
