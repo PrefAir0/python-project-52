@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %} {# Или load bootstrap4, если используешь старую версию #}
+
+{% block content %}
+<h1 class="mb-4">Создать задачу</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %} {# Если не используешь библиотеку bootstrap, замени на {{ form.as_p }} #}
+    
+    <button type="submit" class="btn btn-primary">Создать</button>
+</form>
+{% endblock %}

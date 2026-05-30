@@ -19,7 +19,6 @@ class StatusCRUDTestCase(TestCase):
         status_data = {'name': 'В работе'}
         response = self.client.post(reverse('statuses:create'), data=status_data)
         self.assertRedirects(response, reverse('statuses:index'))
-        # Проверяем, появился ли статус в базе данных
         self.assertTrue(Status.objects.filter(name='В работе').exists())
 
     def test_update_status(self):
@@ -40,7 +39,7 @@ class StatusCRUDTestCase(TestCase):
         self.assertFalse(Status.objects.filter(id=self.status.id).exists())
 
     def test_statuses_view_unauthorized(self):
-        self.client.logout() # Разлогиниваемся
+        self.client.logout()
         response = self.client.get(reverse('statuses:index'))
 
         self.assertEqual(response.status_code, 302)
