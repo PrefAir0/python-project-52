@@ -36,14 +36,14 @@
                                 <button type="submit" class="nav-link btn btn-link text-decoration-none">{% translate "Выход" %}</button>
                             </form>
                         </li>
-                    {% else %}
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">{% translate "Вход" %}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'users:create' %}">{% translate "Регистрация" %}</a>
                         </li>
-                    {% endif %}
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'users:index' %}">{% translate "Users" %}</a>
                         </li>
