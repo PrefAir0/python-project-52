@@ -56,3 +56,34 @@ class TaskCRUDTestCase(TestCase):
     def test_unauthorized_redirect(self):
         response = self.client.get(reverse('tasks:index'))
         self.assertEqual(response.status_code, 302)
+
+    def test_filter_tasks_by_status(self):
+        self.client.login(username='author', password='password123')
+
+        status2 = Status.objects.create(name='Завершен')
+        Task.objects.create(
+            name='Вторая задача',
+            status=status2,
+            author=self.author
+        )
+
+        response = self.client.get(reverse('tasks:index'), data={'status': self.status.id})
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Первая задача')
+        self.assertNotContains(response, 'Вторая задача')
+
+    def test_filter_self_tasks(self):
+        self.client.login(username='author', password='password123')
+        
+        Task.objects.create(
+            name='Чужая задача',
+            status=self.status,
+            author=self.non_author
+        )
+
+        response = self.client.get(reverse('tasks:index'), data={'self_tasks': 'on'})
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Первая задача')
+        self.assertNotContains(response, 'Чужая задача')

@@ -7,11 +7,14 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from .models import Task
 from .forms import TaskForm
+from django_filters.views import FilterView
+from .filters import TaskFilter
 
-class TaskListView(LoginRequiredMixin, ListView):
+class TaskListView(LoginRequiredMixin, FilterView):
     model = Task
     template_name = 'tasks/index.html'
     context_object_name = 'tasks'
+    filterset_class = TaskFilter
 
 class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
