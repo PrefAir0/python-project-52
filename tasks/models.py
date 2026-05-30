@@ -2,15 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from statuses.models import Status
 from django.utils.translation import gettext_lazy as _
-
-class Label(models.Model):
-    """Временная заглушка для меток, чтобы форма работала корректно"""
-    name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
+from labels.models import Label
 
 class Task(models.Model):
+
+    labels = models.ManyToManyField(
+            Label, 
+            blank=True, 
+            related_name='tasks',
+            verbose_name=_('Метки')
+        )
+
     name = models.CharField(
         max_length=150, 
         unique=True,
