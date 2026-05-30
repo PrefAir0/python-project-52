@@ -7,23 +7,29 @@
 <table class="table table-striped">
 <thead>
     <tr>
-    <th>ID</th>
+        <th>ID</th>
         <th>{% translate "Имя пользователя" %}</th>
         <th>{% translate "Имя" %}</th>
         <th>{% translate "Фамилия" %}</th>
         <th>{% translate "Дата создания" %}</th>
+        <th></th> 
     </tr>
-</thead>
+    </thead>
 <tbody>
-        {% for user in users %}
-    <tr>
+    {% for user in users %}
+        <tr>
         <td>{{ user.id }}</td>
         <td>{{ user.username }}</td>
         <td>{{ user.first_name }}</td>
         <td>{{ user.last_name }}</td>
         <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
-    </tr>
+        <td>
+            <a href="{% url 'users:update' user.id %}">{% translate "Изменить" %}</a>
+            <br>
+            <a href="{% url 'users:delete' user.id %}">{% translate "Удалить" %}</a>
+        </td>
+        </tr>
     {% endfor %}
-</tbody>
+    </tbody>
 </table>
 {% endblock %}
