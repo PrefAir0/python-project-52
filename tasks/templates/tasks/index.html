@@ -7,18 +7,14 @@
 <a href="{% url 'tasks:create' %}" class="btn btn-primary mb-3">Создать задачу</a>
 
 <div class="card mb-4">
-    <div class="card-body bg-light ">
+    <div class="card-body bg-light">
         <form method="get">
-            <div class="row g-3 align-items-end">
             {% for field in filter.form %}
-                <div class="col-md-3 d-flex">
+            <div class="mb-3">
                 {% bootstrap_field field layout='vertical' %}
-                </div>
-            {% endfor %}
-                <div class="col-md-2">
-                    <button class="btn btn-primary w-100" type="submit">Показать</button>
-                </div>
             </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Показать</button>
         </form>
     </div>
 </div>
