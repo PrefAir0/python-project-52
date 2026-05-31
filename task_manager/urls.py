@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from users.views import UserLoginView, UserLogoutView
+from task_manager import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,4 +13,6 @@ urlpatterns = [
     path('logout/', UserLogoutView.as_view(), name='logout'),
     path('tasks/', include('tasks.urls')),
     path('labels/', include('labels.urls')),
+    path('admin/', admin.site.urls),
+    path('', views.IndexView.as_view(), name='index'), 
 ]
