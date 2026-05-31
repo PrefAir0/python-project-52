@@ -14,5 +14,4 @@ urlpatterns = [
     path('tasks/', include('tasks.urls')),
     path('labels/', include('labels.urls')),
     path('admin/', admin.site.urls),
-    path('', views.IndexView.as_view(), name='index'), 
 ]
