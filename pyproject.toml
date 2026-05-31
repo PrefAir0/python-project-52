@@ -21,3 +21,7 @@ dev = [
     "flake8>=7.3.0",
 ]
 
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Your description"
