@@ -5,45 +5,50 @@
 
 <div class="card mb-3">
     <div class="card-header bg-secondary text-white">
-    <h2>{{ task.name }}</h2>
+        <h2 class="my-1">{{ task.name }}</h2>
     </div>
     <div class="card-body bg-light">
-    <p>{{ task.description }}</p>
+        <p class="lead">{{ task.description }}</p>
     <hr>
-    <div class="container">
+    
+    <div class="container-fluid p-0">
         <div class="row p-1">
-        <div class="col">Автор</div>
+        <div class="col-4 font-weight-bold">Автор</div>
         <div class="col">{{ task.author.first_name }} {{ task.author.last_name }}</div>
         </div>
         <div class="row p-1">
-        <div class="col">Исполнитель</div>
+        <div class="col-4 font-weight-bold">Исполнитель</div>
         <div class="col">
             {% if task.executor %}
             {{ task.executor.first_name }} {{ task.executor.last_name }}
+            {% else %}
+            —
             {% endif %}
         </div>
         </div>
         <div class="row p-1">
-        <div class="col">Статус</div>
+        <div class="col-4 font-weight-bold">Статус</div>
         <div class="col">{{ task.status.name }}</div>
         </div>
         <div class="row p-1">
-        <div class="col">Дата создания</div>
+        <div class="col-4 font-weight-bold">Дата создания</div>
         <div class="col">{{ task.created_at|date:"d.m.Y H:i" }}</div>
         </div>
-        <div class="row p-1">
-        <div class="col">Метки</div>
-        <div class="col">
-            <ul>
-            {% for label in task.labels.all %}
-                <li>{{ label.name }}</li>
-            {% empty %}
-                <li>Нет меток</li>
-            {% endfor %}
-            </ul>
-        </div>
-        </div>
     </div>
+
+    <hr>
+
+    <div class="ms-3 mt-3">
+        <div class="text-muted mb-2">Метки:</div>
+        <ul>
+        {% for label in task.labels.all %}
+            <li>{{ label.name }}</li>
+        {% empty %}
+            <li class="text-muted">Нет меток</li>
+        {% endfor %}
+        </ul>
+    </div>
+
     </div>
     <div class="d-flex justify-content-between">
         <a href="{% url 'tasks:update' task.id %}" class="btn btn-info">Изменить</a>
