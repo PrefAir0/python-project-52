@@ -2,7 +2,6 @@ from django import forms
 from .models import Task
 from django.utils.translation import gettext_lazy as _
 
-
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
@@ -14,3 +13,7 @@ class TaskForm(forms.ModelForm):
             'executor': _('Исполнитель'),
             'labels': _('Метки'),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['executor'].label_from_instance = lambda user: user.get_full_name()
