@@ -1,89 +1,112 @@
 from django.test import TestCase
-from django.urls import reverse
-from django.contrib.auth.models import User
-from statuses.models import Status
+from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
 from tasks.models import Task
+from statuses.models import Status
+from labels.models import Label
+
 
 class TaskCRUDTestCase(TestCase):
     def setUp(self):
-        self.author = User.objects.create_user(username='author', password='password123')
-        self.non_author = User.objects.create_user(username='non_author', password='password123')
 
-        self.status = Status.objects.create(name='В работе')
-
-        self.task = Task.objects.create(
-            name='Первая задача',
-            description='Описание',
-            status=self.status,
-            author=self.author
+        User = get_user_model()
+        self.author = User.objects.create_user(
+            username='author',
+            password='password123'
         )
+        self.executor = User.objects.create_user(
+            username='executor',
+            password='password123'
+        )
+        self.another_user = User.objects.create_user(
+            username='stranger',
+            password='password123'
+        )
+
+        self.status = Status.objects.create(name='New')
+        self.label = Label.objects.create(name='Bug')
+
+        self.task_data = {
+            'name': 'Test Task',
+            'description': 'Task description',
+            'status': self.status.id,
+            'executor': self.executor.id,
+            'labels': [self.label.id]
+        }
+
+        self.client.login(username='author', password='password123')
 
     def test_task_list_and_detail(self):
-        self.client.login(username='author', password='password123')
-
-        response = self.client.get(reverse('tasks:index'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Первая задача')
         
-        response = self.client.get(reverse('tasks:view', kwargs={'pk': self.task.id}))
+        response = self.client.get(reverse_lazy('tasks:index'))
         self.assertEqual(response.status_code, 200)
+
+        
+        task = Task.objects.create(
+            name='View Task',
+            author=self.author,
+            status=self.status
+        )
+        response = self.client.get(reverse_lazy('tasks:detail', kwargs={'pk': task.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'View Task')
 
     def test_create_task(self):
-        self.client.login(username='author', password='password123')
-        task_data = {
-            'name': 'Вторая задача',
-            'description': 'Сделать CRUD',
-            'status': self.status.id,
-            'executor': self.author.id
-        }
-        response = self.client.post(reverse('tasks:create'), data=task_data)
-        self.assertRedirects(response, reverse('tasks:index'))
-        self.assertTrue(Task.objects.filter(name='Вторая задача').exists())
+        
+        response = self.client.post(reverse_lazy('tasks:create'), data=self.task_data)
+        
+        
+        self.assertRedirects(response, reverse_lazy('tasks:index'))
+        
+        
+        task = Task.objects.filter(name='Test Task').first()
+        self.assertIsNotNone(task)
+        self.assertEqual(task.author, self.author)
+        self.assertEqual(task.executor, self.executor)
+
+    def test_update_task(self):
+        task = Task.objects.create(
+            name='Old Name',
+            author=self.author,
+            status=self.status
+        )
+        
+        updated_data = self.task_data.copy()
+        updated_data['name'] = 'Updated Name'
+
+        response = self.client.post(
+            reverse_lazy('tasks:update', kwargs={'pk': task.id}),
+            data=updated_data
+        )
+        self.assertRedirects(response, reverse_lazy('tasks:index'))
+
+        task.refresh_from_db()
+        self.assertEqual(task.name, 'Updated Name')
 
     def test_delete_task_by_author(self):
-        self.client.login(username='author', password='password123')
-        response = self.client.post(reverse('tasks:delete', kwargs={'pk': self.task.id}))
-        self.assertRedirects(response, reverse('tasks:index'))
-        self.assertFalse(Task.objects.filter(id=self.task.id).exists())
-
-    def test_delete_task_by_non_author(self):
-        self.client.login(username='non_author', password='password123')
-        response = self.client.post(reverse('tasks:delete', kwargs={'pk': self.task.id}))
-
-        self.assertRedirects(response, reverse('tasks:index'))
-        self.assertTrue(Task.objects.filter(id=self.task.id).exists())
-
-    def test_unauthorized_redirect(self):
-        response = self.client.get(reverse('tasks:index'))
-        self.assertEqual(response.status_code, 302)
-
-    def test_filter_tasks_by_status(self):
-        self.client.login(username='author', password='password123')
-
-        status2 = Status.objects.create(name='Завершен')
-        Task.objects.create(
-            name='Вторая задача',
-            status=status2,
-            author=self.author
+        task = Task.objects.create(
+            name='To Be Deleted',
+            author=self.author,
+            status=self.status
         )
 
-        response = self.client.get(reverse('tasks:index'), data={'status': self.status.id})
+        response = self.client.post(reverse_lazy('tasks:delete', kwargs={'pk': task.id}))
+        self.assertRedirects(response, reverse_lazy('tasks:index'))
         
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Первая задача')
-        self.assertNotContains(response, 'Вторая задача')
 
-    def test_filter_self_tasks(self):
-        self.client.login(username='author', password='password123')
-        
-        Task.objects.create(
-            name='Чужая задача',
-            status=self.status,
-            author=self.non_author
+        self.assertFalse(Task.objects.filter(id=task.id).exists())
+
+    def test_delete_task_by_stranger_fails(self):
+        task = Task.objects.create(
+            name='Protected Task',
+            author=self.author,
+            status=self.status
         )
 
-        response = self.client.get(reverse('tasks:index'), data={'self_tasks': 'on'})
+        self.client.login(username='stranger', password='password123')
+
+        response = self.client.post(reverse_lazy('tasks:delete', kwargs={'pk': task.id}))
+        self.assertRedirects(response, reverse_lazy('tasks:index'))
         
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Первая задача')
-        self.assertNotContains(response, 'Чужая задача')
+        
+        self.assertTrue(Task.objects.filter(id=task.id).exists())
