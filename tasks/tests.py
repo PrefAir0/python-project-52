@@ -33,13 +33,10 @@ class TaskCRUDTestCase(TestCase):
             'executor': self.executor.id,
             'labels': [self.label.id]
         }
-
         self.client.login(username='author', password='password123')
-
     def test_task_list_and_detail(self):
         response = self.client.get(reverse_lazy('tasks:index'))
         self.assertEqual(response.status_code, 200)
-
         
         task = Task.objects.create(
             name='View Task',
@@ -52,13 +49,8 @@ class TaskCRUDTestCase(TestCase):
         self.assertContains(response, 'View Task')
 
     def test_create_task(self):
-        
         response = self.client.post(reverse_lazy('tasks:create'), data=self.task_data)
-        
-        
         self.assertRedirects(response, reverse_lazy('tasks:index'))
-        
-        
         task = Task.objects.filter(name='Test Task').first()
         self.assertIsNotNone(task)
         self.assertEqual(task.author, self.author)
@@ -110,3 +102,4 @@ class TaskCRUDTestCase(TestCase):
         
         
         self.assertTrue(Task.objects.filter(id=task.id).exists())
+        

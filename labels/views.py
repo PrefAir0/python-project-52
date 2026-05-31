@@ -8,10 +8,12 @@ from django.utils.translation import gettext_lazy as _
 from .models import Label
 from .forms import LabelForm
 
+
 class LabelListView(LoginRequiredMixin, ListView):
     model = Label
     template_name = 'labels/index.html'
     context_object_name = 'labels'
+
 
 class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Label
@@ -20,12 +22,14 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('labels:index')
     success_message = _('Метка успешно создана')
 
+
 class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Label
     form_class = LabelForm
     template_name = 'labels/update.html'
     success_url = reverse_lazy('labels:index')
     success_message = _('Метка успешно изменена')
+
 
 class LabelDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Label

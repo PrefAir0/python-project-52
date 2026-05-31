@@ -43,3 +43,4 @@ class StatusCRUDTestCase(TestCase):
         response = self.client.get(reverse('statuses:index'))
 
         self.assertEqual(response.status_code, 302)
+        

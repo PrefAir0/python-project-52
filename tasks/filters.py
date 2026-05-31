@@ -4,12 +4,13 @@ from django.utils.translation import gettext_lazy as _
 from .models import Task
 from labels.models import Label
 
+
 class TaskFilter(django_filters.FilterSet):
     labels = django_filters.ModelChoiceFilter(
         queryset=Label.objects.all(),
         label=_('Метка')
     )
-    
+
     self_tasks = django_filters.BooleanFilter(
         label=_('Только свои задачи'),
         widget=forms.CheckboxInput(),
