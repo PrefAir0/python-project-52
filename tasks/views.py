@@ -9,14 +9,6 @@ from .models import Task
 from .forms import TaskForm
 from django_filters.views import FilterView
 from .filters import TaskFilter
-from django.http import HttpResponse
-
-
-def test_error(request):
-    """Trigger a test error for Rollbar."""
-    a = None
-    a.hello()
-    return HttpResponse("This will not be reached")
 
 
 class TaskListView(LoginRequiredMixin, FilterView):
@@ -63,5 +55,3 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
             messages.error(request, _('Задачу может удалить только ее автор'))
             return redirect('tasks:index')
         return super().dispatch(request, *args, **kwargs)
-
-division_by_zero = 1 / 0
