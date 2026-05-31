@@ -37,7 +37,6 @@ class TaskCRUDTestCase(TestCase):
         self.client.login(username='author', password='password123')
 
     def test_task_list_and_detail(self):
-        
         response = self.client.get(reverse_lazy('tasks:index'))
         self.assertEqual(response.status_code, 200)
 
@@ -47,7 +46,8 @@ class TaskCRUDTestCase(TestCase):
             author=self.author,
             status=self.status
         )
-        response = self.client.get(reverse_lazy('tasks:detail', kwargs={'pk': task.id}))
+        
+        response = self.client.get(reverse_lazy('tasks:view', kwargs={'pk': task.id}))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'View Task')
 
