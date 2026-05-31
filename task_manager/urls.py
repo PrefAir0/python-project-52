@@ -1,8 +1,7 @@
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 from django.views.generic import TemplateView
 from users.views import UserLoginView, UserLogoutView
-from . import views 
 
 
 def test_error(request):
@@ -12,10 +11,11 @@ def test_error(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test-error/', test_error),
     path('users/', include('users.urls')),
     path('statuses/', include('statuses.urls')),
     path('tasks/', include('tasks.urls')),
     path('labels/', include('labels.urls')),
-    path('', views.IndexView.as_view(), name='home'),
+    path('', TemplateView.as_view(template_name='index.html'), name='home'),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', UserLogoutView.as_view(), name='logout'),
 ]
