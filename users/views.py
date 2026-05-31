@@ -9,13 +9,6 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 from django.views.generic import UpdateView, DeleteView
-from django.http import HttpResponse
-
-# def test_error(request):
-#     """Trigger a test error for Rollbar."""
-#     a = None
-#     a.hello() 
-#     return HttpResponse("This will not be reached")
 
 
 class UserListView(ListView):
