@@ -18,6 +18,10 @@ import sys
 
 load_dotenv()
 
+
+ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN')
+ROLLBAR_ENVIRONMENT = os.getenv('ROLLBAR_ENVIRONMENT', 'development')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -145,13 +149,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 LOGIN_URL = 'login'
 
-ROLLBAR_ACCESS_TOKEN = os.getenv('ROLLBAR_ACCESS_TOKEN')
-
-if ROLLBAR_ACCESS_TOKEN:
-    ROLLBAR = {
-        'access_token': ROLLBAR_ACCESS_TOKEN,
-        'environment': 'development' if DEBUG else 'production',
-        'code_version': '1.0',
-        'branch': 'main',
-        'root': BASE_DIR,
-    }
+ROLLBAR = {
+    'access_token': ROLLBAR_ACCESS_TOKEN,
+    'environment': 'development' if DEBUG else 'production',
+    'code_version': '1.0',
+    'branch': 'main',
+    'root': BASE_DIR,
+}
