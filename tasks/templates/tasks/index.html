@@ -49,10 +49,9 @@
         </td>
         <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
         <td>
-            <div class="d-flex gap-2">
-            <a href="{% url 'tasks:view' task.id %}">Показать</a>
-            <a href="{% url 'tasks:update' task.id %}">Изменить</a>
-            <a href="{% url 'tasks:delete' task.id %}">Удалить</a>
+            <div class="d-flex gap-2 flex-column">
+                <a href="{% url 'tasks:update' task.id %}">Изменить</a>
+                <a href="{% url 'tasks:delete' task.id %}">Удалить</a>
             </div>
         </td>
         </tr>
