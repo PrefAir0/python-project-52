@@ -12,3 +12,6 @@ build:
 
 render-start:
 	uv run gunicorn task_manager.wsgi
+
+tests:
+	uv run coverage run manage.py test
