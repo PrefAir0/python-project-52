@@ -26,6 +26,6 @@
 
 ### Установка и запуск проекта
 * Установи зависимости с помощью uv sync
-* В [.env] добавьте секретный ключь django: [SECRET_KEY=your_secret_key]
-* Выполните миграцию базы данных: [poetry run python manage.py migrate]
-* Зпустите сервер: [poetry run python manage.py runserver]
+* В `.env` добавьте секретный ключь django: `SECRET_KEY=your_secret_key`
+* Выполните миграцию базы данных: `poetry run python manage.py migrate`
+* Зпустите сервер: `poetry run python manage.py runserver`
