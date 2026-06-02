@@ -24,9 +24,8 @@
 
 ---
 
-### Системные требования
-
-* Python (версия 3.13 или выше)
-* Poetry (инструмент для управления зависимостями)
-
----
+### Установка и запуск проекта
+* Установи зависимости с помощью uv sync
+* В [.env] добавьте секретный ключь django: [SECRET_KEY=your_secret_key]
+* Выполните миграцию базы данных: [poetry run python manage.py migrate]
+* Зпустите сервер: [poetry run python manage.py runserver]
