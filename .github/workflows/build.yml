@@ -1,12 +1,10 @@
 name: Build
-
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
-
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
@@ -17,15 +15,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-      - name: Set up uv
+          fetch-depth: 0 
+      - name: Setup uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
+          python-version: '3.11' 
       - name: Install dependencies
         run: uv sync
       - name: Run tests with coverage
         run: uv run pytest --cov=. --cov-report=xml
+
+      # 4. Сканируем проект в SonarQube
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v8.1.0
         env:
