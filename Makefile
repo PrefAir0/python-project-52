@@ -13,5 +13,5 @@ build:
 render-start:
 	uv run gunicorn task_manager.wsgi
 
-tests:
-	uv run coverage run manage.py test
+test:
+	uv run pytest --cov=. --cov-report=xml
