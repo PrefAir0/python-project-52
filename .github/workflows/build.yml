@@ -23,6 +23,7 @@ jobs:
       - name: Run tests with coverage
         run: |
           uv sync
+          uv pip install pytest pytest-django pytest-cov
           uv run pytest --cov=. --cov-report=xml
         
       - name: SonarQube Scan
